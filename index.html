@@ -1,44 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Process Tree</title>
+    <title>Process Tree</title>
     <style>
-        .step { display: none; padding: 20px; border: 1px solid #ccc; margin: 10px; }
+        .step { display: none; padding: 20px; border: 1px solid #ccc; margin: 10px; border-radius: 8px; }
         .visible { display: block; }
+        button { margin-right: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="step1" class="step visible">
-        <h3>Is this incident a PSE, Collision or both</h3>
-        <button onclick="showStep('step2')">PSE</button>
-        <button onclick="showStep('step3')">Collision</button>
-        <button onclick="showStep('step4')">Both</button>
-    </div>
-
-    <div id="step2" class="step">
-        <h3>You chose PSE</h3>
-        <button onclick="reset()">Start Over</button>
-    </div>
-
-    <div id="step3" class="step">
-        <h3>You chose Collision</h3>
-        <button onclick="reset()">Start Over</button>
-    </div>
-
-    <div id="step4" class="step">
-        <h3>You chose both</h3>
-        <button onclick="reset()">Start Over</button>
-    </div>
+    <div id="tree-container"></div>
 
     <script>
-        function showStep(id) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('visible'));
-            document.getElementById(id).classList.add('visible');
+        // This is your data. Add as many steps as you want here!
+        const steps = {
+            "step1": {
+                text: "Is this incident a PSE, Collision or both?",
+                options: [
+                    { label: "PSE", next: "step2" },
+                    { label: "Collision", next: "step3" },
+                    { label: "Both", next: "step4" }
+                ]
+            },
+            "step2": { text: "You chose PSE", options: [{ label: "Start Over", next: "step1" }] },
+            "step3": { text: "You chose Collision", options: [{ label: "Start Over", next: "step1" }] },
+            "step4": { text: "You chose both", options: [{ label: "Start Over", next: "step1" }] }
+        };
+
+        function renderStep(id) {
+            const container = document.getElementById('tree-container');
+            container.innerHTML = ''; // Clear previous
+            
+            const step = steps[id];
+            const div = document.createElement('div');
+            div.className = 'step visible';
+            div.innerHTML = `<h3>${step.text}</h3>`;
+            
+            step.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.innerText = opt.label;
+                btn.onclick = () => renderStep(opt.next);
+                div.appendChild(btn);
+            });
+            
+            container.appendChild(div);
         }
-        function reset() {
-            showStep('step1');
-        }
+
+        renderStep('step1');
     </script>
 </body>
 </html>
