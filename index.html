@@ -22,7 +22,7 @@
                     { label: "Both", next: "step4" }
                 ]
             },
-            // --- PSE Investigation Phase ---
+            // --- PSE Investigation ---
             "pse_investigate": {
                 text: "1) Use the WebRAD Panorama Camera Replay and recordings in Webviz to investigate the event. Is the event a true or false positive?",
                 options: [
@@ -34,19 +34,36 @@
                 text: "Event confirmed as False Positive. No further action required.",
                 options: [{ label: "Return to Start", next: "step1" }]
             },
-            // --- PSE Severity/Urgency ---
+            // --- Severity/Urgency ---
             "pse_severity": {
-                text: "Determine the severity of the event. Is this an urgent PSE? (Includes active intentional act to cause significant injury/damage, or disruption > 3 mins)",
+                text: "Determine the severity of the event. Is this an urgent PSE?",
                 options: [
                     { label: "Yes", next: "pse_urgent_steps" },
-                    { label: "No", next: "pse_next_investigation" }
+                    { label: "No", next: "pse_safety_deescalation" }
                 ]
             },
             "pse_urgent_steps": {
-                text: "URGENT PSE ESCALATION: 1) Use go/emschedule to find the escalation manager on shift. 2) Send a ping in the Escalation to EM space to contact the Escalation manager.",
-                options: [{ label: "Continue", next: "pse_next_investigation" }]
+                text: "URGENT PSE ESCALATION: 1) Find EM on shift via go/emschedule. 2) Ping in Escalation to EM space.",
+                options: [{ label: "Continue", next: "pse_safety_deescalation" }]
             },
-            "pse_next_investigation": { 
+            // --- Safety and De-escalation ---
+            "pse_safety_deescalation": {
+                text: "SAFETY & DE-ESCALATION: Talk to rider to ensure safety/comfort. Try to de-escalate using audio alerts, and attempt to escape using unsticking tools.",
+                options: [{ label: "Next", next: "pse_es_required" }]
+            },
+            // --- Emergency Services Gate ---
+            "pse_es_required": {
+                text: "Are Emergency Services (ES) required? (Injuries, active threat, medical emergency, or severe verbal threat?)",
+                options: [
+                    { label: "Yes", next: "pse_es_process" },
+                    { label: "No", next: "pse_final_investigation" }
+                ]
+            },
+            "pse_es_process": {
+                text: "EMERGENCY SERVICES PROCESS: Initiate required ES contact protocols for the region.",
+                options: [{ label: "Continue", next: "pse_final_investigation" }]
+            },
+            "pse_final_investigation": { 
                 text: "Proceeding to next investigation phase...", 
                 options: [{ label: "Next Step", next: "step1" }] 
             },
