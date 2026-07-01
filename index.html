@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Process Tree</title>
+    <style>
+        .step { display: none; padding: 20px; border: 1px solid #ccc; margin: 10px; }
+        .visible { display: block; }
+    </style>
+</head>
+<body>
+
+    <div id="step1" class="step visible">
+        <h3>Step 1: The Beginning</h3>
+        <button onclick="showStep('step2')">Yes</button>
+        <button onclick="showStep('step3')">No</button>
+    </div>
+
+    <div id="step2" class="step">
+        <h3>Step 2: You chose Yes</h3>
+        <button onclick="reset()">Start Over</button>
+    </div>
+
+    <div id="step3" class="step">
+        <h3>Step 3: You chose No</h3>
+        <button onclick="reset()">Start Over</button>
+    </div>
+
+    <script>
+        function showStep(id) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('visible'));
+            document.getElementById(id).classList.add('visible');
+        }
+        function reset() {
+            showStep('step1');
+        }
+    </script>
+</body>
+</html>
