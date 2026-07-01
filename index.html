@@ -56,16 +56,27 @@
                 text: "Are Emergency Services (ES) required? (Injuries, active threat, medical emergency, or severe verbal threat?)",
                 options: [
                     { label: "Yes", next: "pse_es_process" },
-                    { label: "No", next: "pse_final_investigation" }
+                    { label: "No", next: "pse_evaluate" }
                 ]
             },
             "pse_es_process": {
-                text: "EMERGENCY SERVICES PROCESS: Initiate required ES contact protocols for the region.",
-                options: [{ label: "Continue", next: "pse_final_investigation" }]
+                text: "EMERGENCY SERVICES CALL PROTOCOL:<br><br>1) Call emergency services and quote Police (or Ambulance for medical).<br>2) Introduce yourself and state you are calling about an autonomous vehicle incident.<br>3) Explain the situation and your request.<br>4) Provide your callback number, then ask for an incident number and ETA.",
+                options: [{ label: "Continue", next: "pse_evaluate" }]
             },
-            "pse_final_investigation": { 
-                text: "Proceeding to next investigation phase...", 
-                options: [{ label: "Next Step", next: "step1" }] 
+            // --- Evaluation Phase ---
+            "pse_evaluate": {
+                text: "Once the threat is no longer active, please respond to the EVALUATE PSE request:",
+                options: [
+                    { label: "1) Yes there is blocking damage, dispatch recovery immediately", next: "pse_post_evaluation" },
+                    { label: "2) Yes there is blocking damage, complete trip and RTB", next: "pse_post_evaluation" },
+                    { label: "3) Yes, but no blocking damage", next: "pse_post_evaluation" },
+                    { label: "4) No, there is no damage", next: "pse_post_evaluation" },
+                    { label: "5) No, there is no damage but there was a PSE", next: "pse_post_evaluation" }
+                ]
+            },
+            "pse_post_evaluation": {
+                text: "Evaluation noted. Proceeding to final steps...",
+                options: [{ label: "Continue", next: "step1" }]
             },
             // --- Placeholders ---
             "step3": { text: "Collision path logic goes here.", options: [{ label: "Back", next: "step1" }] },
