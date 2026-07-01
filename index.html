@@ -10,18 +10,24 @@
 <body>
 
     <div id="step1" class="step visible">
-        <h3>Step 1: The Beginning</h3>
-        <button onclick="showStep('step2')">Yes</button>
-        <button onclick="showStep('step3')">No</button>
+        <h3>Is this incident a PSE, Collision or both</h3>
+        <button onclick="showStep('step2')">PSE</button>
+        <button onclick="showStep('step3')">Collision</button>
+        <button onclick="showStep('step4')">Both</button>
     </div>
 
     <div id="step2" class="step">
-        <h3>Step 2: You chose Yes</h3>
+        <h3>You chose PSE</h3>
         <button onclick="reset()">Start Over</button>
     </div>
 
     <div id="step3" class="step">
-        <h3>Step 3: You chose No</h3>
+        <h3>You chose Collision</h3>
+        <button onclick="reset()">Start Over</button>
+    </div>
+
+    <div id="step4" class="step">
+        <h3>You chose both</h3>
         <button onclick="reset()">Start Over</button>
     </div>
 
