@@ -3,9 +3,9 @@
 <head>
     <title>Process Tree</title>
     <style>
-        .step { display: none; padding: 20px; border: 1px solid #ccc; margin: 10px; border-radius: 8px; }
+        .step { display: none; padding: 20px; border: 1px solid #ccc; margin: 10px; border-radius: 8px; max-width: 600px; }
         .visible { display: block; }
-        button { margin-right: 10px; cursor: pointer; }
+        button { margin: 5px; padding: 10px 20px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -18,14 +18,40 @@
             "step1": {
                 text: "Is this incident a PSE, Collision or both?",
                 options: [
-                    { label: "PSE", next: "step2" },
+                    { label: "PSE", next: "pse_investigate" },
                     { label: "Collision", next: "step3" },
                     { label: "Both", next: "step4" }
                 ]
             },
-            "step2": { text: "You chose PSE", options: [{ label: "Start Over", next: "step1" }] },
-            "step3": { text: "You chose Collision", options: [{ label: "Start Over", next: "step1" }] },
-            "step4": { text: "You chose both", options: [{ label: "Start Over", next: "step1" }] }
+            // --- PSE Investigation Phase ---
+            "pse_investigate": {
+                text: "1) Use the WebRAD Panorama Camera Replay and recordings in Webviz to investigate the event. Is the event a true or false positive?",
+                options: [
+                    { label: "True Positive", next: "pse_true_positive" },
+                    { label: "False Positive", next: "pse_false_positive" }
+                ]
+            },
+            "pse_false_positive": {
+                text: "Event confirmed as False Positive. No further action required.",
+                options: [{ label: "Return to Start", next: "step1" }]
+            },
+            "pse_true_positive": {
+                text: "True Positive confirmed. Proceeding to next investigation phase...",
+                options: [{ label: "Continue", next: "pse_next_step" }] 
+            },
+            "pse_next_step": { 
+                text: "What is the next process step?", 
+                options: [{ label: "Back to Start", next: "step1" }] 
+            },
+            // --- Placeholders ---
+            "step3": { 
+                text: "Collision path logic goes here.", 
+                options: [{ label: "Back", next: "step1" }] 
+            },
+            "step4": { 
+                text: "Both path logic goes here.", 
+                options: [{ label: "Back", next: "step1" }] 
+            }
         };
 
         function renderStep(id) {
@@ -47,6 +73,7 @@
             container.appendChild(div);
         }
 
+        // Initialize the tree
         renderStep('step1');
     </script>
 </body>
