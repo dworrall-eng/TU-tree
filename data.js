@@ -1,4 +1,3 @@
-// data.js - Contains all the logic for your process tree
 const steps = {
     "step1": {
         text: "Is this incident a PSE, Collision or both?",
@@ -15,9 +14,73 @@ const steps = {
             { label: "False Positive", next: "pse_false_positive" }
         ]
     },
-    // ... Add the rest of your large steps object here ...
+    "pse_false_positive": {
+        text: "Event confirmed as False Positive. No further action required.",
+        options: [{ label: "Return to Start", next: "step1" }]
+    },
+    "pse_severity": {
+        text: "Determine the severity of the event. Is this an urgent PSE?",
+        options: [
+            { label: "Yes", next: "pse_urgent_steps" },
+            { label: "No", next: "pse_safety_deescalation" }
+        ]
+    },
+    "pse_urgent_steps": {
+        text: "URGENT PSE ESCALATION: 1) Find EM on shift. 2) Ping in Escalation to EM space.",
+        options: [{ label: "Continue", next: "pse_safety_deescalation" }]
+    },
+    "pse_safety_deescalation": {
+        text: "SAFETY & DE-ESCALATION: Talk to rider to ensure safety/comfort. Try to de-escalate using audio alerts.",
+        options: [{ label: "Next", next: "pse_es_required" }]
+    },
+    "pse_es_required": {
+        text: "Are Emergency Services (ES) required?",
+        options: [
+            { label: "Yes", next: "pse_es_process" },
+            { label: "No", next: "pse_evaluate" }
+        ]
+    },
+    "pse_es_process": {
+        text: "Call emergency services, quote incident type, introduce yourself, and get incident number.",
+        options: [{ label: "Continue", next: "pse_evaluate" }]
+    },
+    "pse_evaluate": {
+        text: "Once the threat is no longer active, respond to the EVALUATE PSE request:",
+        options: [
+            { label: "1) Blocking damage, dispatch recovery", next: "pse_rescue_flow_1" },
+            { label: "2) Blocking damage, complete trip and RTB", next: "pse_rescue_flow_2" },
+            { label: "3) Yes, no blocking damage", next: "pse_escalation_details" },
+            { label: "4) No, no damage", next: "pse_escalation_details" },
+            { label: "5) No, no damage but there was a PSE", next: "pse_check_mission_control" }
+        ]
+    },
+    "pse_rescue_flow_1": {
+        text: "RESCUE FLOW: Complete rescue form, arrange rehail, create Ops chat, monitor.",
+        options: [{ label: "Next: Escalation", next: "pse_escalation_details" }]
+    },
+    "pse_rescue_flow_2": {
+        text: "RESCUE FLOW: Complete rescue form, arrange rehail, monitor.",
+        options: [{ label: "Next: Escalation", next: "pse_escalation_details" }]
+    },
+    "pse_escalation_details": {
+        text: "PSE ESCALATION: Update PSE Event page, complete forms, check Ops on-call.",
+        options: [{ label: "Next: Resolution", next: "pse_resolution" }]
+    },
+    "pse_resolution": {
+        text: "Are there riders present?",
+        options: [
+            { label: "Yes (Transfer via Cases)", next: "pse_complete" },
+            { label: "No", next: "pse_complete" }
+        ]
+    },
     "pse_complete": {
         text: "PSE Workflow Complete.",
         options: [{ label: "Return to Start", next: "step1" }]
-    }
+    },
+    "pse_check_mission_control": {
+        text: "Check Mission Control for setup. Change to False Positive if needed.",
+        options: [{ label: "Finish", next: "step1" }]
+    },
+    "step3": { text: "Collision path logic...", options: [{ label: "Back", next: "step1" }] },
+    "step4": { text: "Both path logic...", options: [{ label: "Back", next: "step1" }] }
 };
