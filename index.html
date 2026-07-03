@@ -1,120 +1,66 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Incident Management Portal</title>
+    <title>Incident Management - Part 1</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-        }
-        body { font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 40px 20px; }
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 40px 20px; }
         #tree-container { width: 100%; max-width: 650px; }
-        .step { background: var(--card); padding: 32px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        h3 { margin-top: 0; font-size: 1.25rem; line-height: 1.6; color: #0f172a; }
-        .template { background: #f1f5f9; padding: 16px; border-radius: 8px; margin: 20px 0; font-size: 0.85rem; border-left: 4px solid var(--primary); }
-        button { display: block; width: 100%; padding: 14px; margin-bottom: 10px; border: none; border-radius: 8px; background: var(--primary); color: white; font-weight: 600; cursor: pointer; transition: transform 0.1s, background 0.2s; }
-        button:hover { background: #1d4ed8; }
-        button:active { transform: scale(0.98); }
+        .step { background: var(--card); padding: 32px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        button { display: block; width: 100%; padding: 14px; margin-bottom: 10px; border: none; border-radius: 8px; background: var(--primary); color: white; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body>
-
     <div id="tree-container"></div>
-
     <script>
         const steps = {
             "step1": {
-                text: "Select the incident type to begin the workflow:",
+                text: "Select the incident type to begin:",
                 options: [
                     { label: "PSE Incident", next: "pse_investigate" },
-                    { label: "Collision Incident", next: "step3" },
-                    { label: "Both (PSE & Collision)", next: "step4" }
+                    { label: "Collision", next: "step3" }
                 ]
             },
             "pse_investigate": {
-                text: "1) Use the WebRAD Panorama Camera Replay and recordings in Webviz to investigate the event. Is the event a true or false positive?",
+                text: "1) Use Webviz to investigate. Is the event a true or false positive?",
                 options: [
                     { label: "True Positive", next: "pse_severity" },
                     { label: "False Positive", next: "pse_false_positive" }
                 ]
             },
             "pse_false_positive": {
-                text: "Event confirmed as False Positive. No further action required.",
-                options: [{ label: "Return to Start", next: "step1" }]
+                text: "False Positive. No further action.",
+                options: [{ label: "Restart", next: "step1" }]
             },
             "pse_severity": {
-                text: "Determine the severity of the event. Is this an urgent PSE?",
+                text: "Is this an urgent PSE?",
                 options: [
-                    { label: "Yes, it is Urgent", next: "pse_urgent_steps" },
-                    { label: "No, it is not Urgent", next: "pse_safety_deescalation" }
+                    { label: "Yes", next: "pse_urgent_steps" },
+                    { label: "No", next: "pse_safety_deescalation" }
                 ]
             },
             "pse_urgent_steps": {
-                text: "URGENT PSE ESCALATION:<br>1) Find EM on shift via go/emschedule.<br>2) Ping in Escalation to EM space.",
+                text: "URGENT ESCALATION: 1) Find EM via go/emschedule. 2) Ping Escalation to EM space.",
                 options: [{ label: "Continue", next: "pse_safety_deescalation" }]
             },
             "pse_safety_deescalation": {
-                text: "SAFETY & DE-ESCALATION: Talk to rider to ensure safety/comfort. Try to de-escalate using audio alerts, and attempt to escape using unsticking tools.",
+                text: "SAFETY: Ensure rider safety. De-escalate via audio/unsticking tools.",
                 options: [{ label: "Next", next: "pse_es_required" }]
             },
             "pse_es_required": {
-                text: "Are Emergency Services (ES) required?",
+                text: "Are Emergency Services required?",
                 options: [
-                    { label: "Yes (Injuries, Threat, Medical)", next: "pse_es_process" },
-                    { label: "No", next: "pse_evaluate" }
+                    { label: "Yes", next: "pse_es_process" },
+                    { label: "No", next: "step_placeholder" }
                 ]
             },
             "pse_es_process": {
-                text: "EMERGENCY SERVICES CALL PROTOCOL:<br><br>1) Call emergency services.<br>2) Introduce yourself/state autonomous vehicle incident.<br>3) Explain situation.<br>4) Provide callback number, ask for incident number and ETA.",
-                options: [{ label: "Continue", next: "pse_evaluate" }]
+                text: "ES PROTOCOL: Call ES, quote Police/Amb, introduce self, explain, get incident #.",
+                options: [{ label: "Continue", next: "step_placeholder" }]
             },
-            "pse_evaluate": {
-                text: "Once the threat is no longer active, please respond to the EVALUATE PSE request:",
-                options: [
-                    { label: "1) Yes, blocking damage - Dispatch Recovery", next: "pse_rescue_flow_1" },
-                    { label: "2) Yes, blocking damage - Complete Trip & RTB", next: "pse_rescue_flow_2" },
-                    { label: "3) Yes, no blocking damage", next: "pse_escalation_details" },
-                    { label: "4) No, no damage", next: "pse_escalation_details" },
-                    { label: "5) No, no damage but there was a PSE", next: "pse_check_mission_control" }
-                ]
-            },
-            "pse_rescue_flow_1": {
-                text: "RESCUE FLOW (Dispatch Recovery):<br>1) Complete rescue form.<br>2) Arrange rehail.<br>3) Create Ops chat.<br>4) Update status in PSE Event page.<br>5) Monitor until pickup.<br><br><div class='template'><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?</div>",
-                options: [{ label: "Next: Escalation Details", next: "pse_escalation_details" }]
-            },
-            "pse_rescue_flow_2": {
-                text: "RESCUE FLOW (Complete Trip & RTB):<br>1) Complete rescue form.<br>2) Arrange rehail.<br>3) Update status in PSE Event page.<br>4) Monitor until pickup.<br><br><div class='template'><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?</div>",
-                options: [{ label: "Next: Escalation Details", next: "pse_escalation_details" }]
-            },
-            "pse_escalation_details": {
-                text: "PSE ESCALATION STEPS:<br><br>1) Update PSE Event page.<br>2) Complete PSE escalation form.<br>3) If potential incident, complete ERI form.<br>4) Review 'Escalate to Ops on-call'.<br>5) If media present, DM Ops on-call.",
-                options: [{ label: "Next: Resolution Stage", next: "pse_resolution" }]
-            },
-            "pse_resolution": {
-                text: "RESOLUTION STAGE: Are there riders present?",
-                options: [
-                    { label: "Yes", next: "pse_rider_transfer" },
-                    { label: "No", next: "pse_complete" }
-                ]
-            },
-            "pse_rider_transfer": {
-                text: "Use 'Cases' to transfer the case to Waymo Support.",
-                options: [{ label: "Continue", next: "pse_complete" }]
-            },
-            "pse_complete": {
-                text: "PSE Workflow Complete.",
-                options: [{ label: "Return to Start", next: "step1" }]
-            },
-            "pse_check_mission_control": {
-                text: "PSE Post-Event: Check if a Mission Control event has been set up. If yes, change it to False Positive and complete the workflow.",
-                options: [{ label: "Finish", next: "step1" }]
-            },
-            "step3": { text: "Collision path logic placeholder.", options: [{ label: "Back", next: "step1" }] },
-            "step4": { text: "Both path logic placeholder.", options: [{ label: "Back", next: "step1" }] }
+            "step_placeholder": { text: "Work in progress (Part 2 pending).", options: [{ label: "Restart", next: "step1" }] },
+            "step3": { text: "Collision path logic...", options: [{ label: "Restart", next: "step1" }] }
         };
 
         function renderStep(id) {
