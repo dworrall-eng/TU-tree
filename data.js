@@ -1,4 +1,4 @@
-// --- Resolution Flow ---
+// --- Resolution Flow --- 
     "pse_resolution": {
         text: "RESOLUTION STAGE: Are there riders present?",
         options: [
