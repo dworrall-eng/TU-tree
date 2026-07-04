@@ -26,9 +26,9 @@ const steps = {
         ]
     },
     "pse_urgent_steps": {
-        text: "URGENT PSE ESCALATION: 1) Find EM on shift. 2) Ping in Escalation to EM space.",
+        text: "<strong>URGENT PSE ESCALATION</strong><br><br>1) Find EM on shift<br>1a) <a href='https://emschedule.corp.google.com' target='_blank'>Click this link go/emschedule</a><br>2) Send a ping in the 'Escalation to EM' space to contact the Escalation manager.",
         options: [{ label: "Continue", next: "pse_safety_deescalation" }]
-    },
+},
     "pse_safety_deescalation": {
         text: "SAFETY & DE-ESCALATION: Talk to rider to ensure safety/comfort. Try to de-escalate using audio alerts.",
         options: [{ label: "Next", next: "pse_es_required" }]
