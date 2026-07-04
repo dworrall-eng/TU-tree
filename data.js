@@ -26,7 +26,7 @@ const steps = {
         ]
     },
     "pse_urgent_steps": {
-    text: "<strong>URGENT PSE ESCALATION</strong><br><br>1) Find EM on shift<br>1a) <a href='http://go/emschedule' target='_blank'>Click this link go/emschedule</a><br>2) Send a ping in the 'Escalation to EM' space to contact the Escalation manager.",
+    text: "<strong>URGENT PSE ESCALATION</strong><br><br>1) Find EM on shift<br>1a) <a href='http://go/emschedule' target='_blank'>Click this link go/emschedule</a><br>2) Send a ping in the 'Escalation to EM' space to contact the Escalation manager, and add LDN AVOS contacts.",
     options: [{ label: "Continue", next: "pse_safety_deescalation" }]
 },
     "pse_safety_deescalation": {
