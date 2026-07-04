@@ -15,7 +15,7 @@ const steps = {
         ]
     },
     "pse_false_positive": {
-        text: "Event confirmed as False Positive. No further action required.",
+        text: "Event confirmed as False Positive. No further action required. ",
         options: [{ label: "Return to Start", next: "step1" }]
     },
     "pse_severity": {
