@@ -1,4 +1,4 @@
-const steps = {
+                                                            const steps = {
     "step1": {
         text: "Is this incident a PSE, Collision or both?",
         options: [
@@ -30,9 +30,9 @@ const steps = {
     options: [{ label: "Continue", next: "pse_safety_deescalation" }]
 },
     "pse_safety_deescalation": {
-        text: "SAFETY & DE-ESCALATION: Talk to rider to ensure safety/comfort. Try to de-escalate using audio alerts.",
-        options: [{ label: "Next", next: "pse_es_required" }]
-    },
+    text: "<strong>SAFETY & DE-ESCALATION</strong><br><br>[1) Talk to rider to ensure safety/comfort.][blue]<br>[2) Try to de-escalate using][blue] [audio alerts][tool][.][blue]<br>[3) Escape the scene if necessary using][blue] [unsticking tools][tool]",
+    options: [{ label: "Next", next: "pse_es_required" }]
+},
     "pse_es_required": {
         text: "Are Emergency Services (ES) required?",
         options: [
