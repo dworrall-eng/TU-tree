@@ -8,12 +8,12 @@ const steps = {
         ]
     },
     "pse_investigate": {
-        text: "1) Use the WebRAD Panorama Camera Replay and recordings in Webviz to investigate the event. Is the event a true or false positive?",
+        text: "[Use the][blue] [WebRAD Panorama Camera Replay][tool] [and recordings in][blue] [Webviz][tool] [to investigate the event.][blue]<br><br>[Is the event a true or false positive?][white]",
         options: [
             { label: "True Positive", next: "pse_severity" },
             { label: "False Positive", next: "pse_false_positive" }
-        ]
-    },
+    ]
+},
     "pse_false_positive": {
         text: "Event confirmed as False Positive. No further action required.",
         options: [{ label: "Return to Start", next: "step1" }]
