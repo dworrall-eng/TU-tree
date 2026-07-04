@@ -40,19 +40,14 @@
             "pse_resolution": { text: "RESOLUTION STAGE: Are there riders present?", options: [{ label: "Yes", next: "pse_rider_transfer" }, { label: "No", next: "pse_eri_update" }] },
             "pse_rider_transfer": { text: "Use 'Cases' to transfer the case to Waymo Support.", options: [{ label: "Continue", next: "pse_eri_update" }] },
             "pse_eri_update": { text: "1) Update the ERI form with any additional details and close the event.<br><br>Was this event an incident?", options: [{ label: "Yes", next: "pse_legal_escalation" }, { label: "No", next: "pse_no_incident_log" }] },
-            
-            // New Divergent Paths
             "pse_legal_escalation": { text: "LEGAL ESCALATION:<br>1) Create a group chat with Legal on-call and the Local Ops lead.<br>1a) Ask the Local Ops supervisor to designate an operator for BFL or LOTA retrieval.<br>2) Legal on-call will communicate when the BFL or LOTA is cleared to remove and upload.", options: [{ label: "Next: Log Saving", next: "pse_log_saving" }] },
             "pse_no_incident_log": { text: "INCIDENT LOGGING:<br>1) If not already done, contact a Local Ops supervisor to designate an operator to assist with BFL removal and upload or LOTA data offload.<br>2) Document the identified operator and supervisor who responded within the already-created collision WO.", options: [{ label: "Next: Log Saving", next: "pse_log_saving" }] },
-            
-            "pse_log_saving": { text: "LOG SAVING: Finalize the upload of all requested BFL/LOTA data and confirm the collision WO is fully documented.", options: [{ label: "Finish", next: "step1" }] },
-            
+            "pse_log_saving": { text: "<strong>SAVING LOG FILES</strong><br><br>Save logs if any of the following are true:<br>a) LEO interaction<br>b) Blocking damage<br>c) Tagging or graffiti<br>d) PSE involving a VRU falling/contact<br>e) Requested by on-callers<br><br><strong>Procedure:</strong><br>1) Open [Webviz][tool]<br>2) Capture event start to mission continue/recovery<br>3) Click [Save Runlets to Dataset][blue]<br>4) Select [Custom Dataset][blue]<br>5) Name: [manually_saved_for_incident][tool]<br>6) Include [Interior Sensors][blue]<br>7) Click [Submit][blue]", options: [{ label: "Finish: Return to Start", next: "step1" }] },
             "pse_complete": { text: "PSE Workflow Complete.", options: [{ label: "Return to Start", next: "step1" }] },
             "pse_check_mission_control": { text: "PSE Post-Event: Check if a Mission Control event has been set up. If yes, change it to False Positive and complete the workflow.", options: [{ label: "Finish", next: "step1" }] },
             "step3": { text: "Collision path logic placeholder.", options: [{ label: "Back", next: "step1" }] },
             "step4": { text: "Both path logic placeholder.", options: [{ label: "Back", next: "step1" }] }
         };
-
         function parseText(text) { return text.replace(/\[([^\]]+)\]\[([^\]]+)\]/g, '<span class="text-$2">$1</span>'); }
         function renderStep(id) {
             const container = document.getElementById('tree-container');
