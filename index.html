@@ -68,9 +68,9 @@
     <script src="data.js"></script>
     <script>
         function parseText(text) {
-            // Regex to match [content][color]
+            // This looks for [text][color_name] and converts it to <span class="text-color_name">
             return text.replace(/\[([^\]]+)\]\[([^\]]+)\]/g, '<span class="text-$2">$1</span>');
-        }
+}
 
         function renderStep(id) {
             const container = document.getElementById('tree-container');
