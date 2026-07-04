@@ -55,11 +55,11 @@ const steps = {
         ]
     },
     "pse_rescue_flow_1": {
-        text: "RESCUE FLOW (Dispatch Recovery): Complete rescue form, arrange rehail, create Ops chat, monitor until pickup.<br><br><div class='template'><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?</div>",
+        text: "RESCUE FLOW (Dispatch Recovery): Complete rescue form, arrange rehail, create Ops chat, monitor until pickup.<br><br><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?",
         options: [{ label: "Next: Escalation Details", next: "pse_escalation_details" }]
     },
     "pse_rescue_flow_2": {
-        text: "RESCUE FLOW (Complete Trip & RTB): Complete rescue form, arrange rehail, monitor until pickup.<br><br><div class='template'><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?</div>",
+        text: "RESCUE FLOW (Complete Trip & RTB): Complete rescue form, arrange rehail, monitor until pickup.<br><br><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?",
         options: [{ label: "Next: Escalation Details", next: "pse_escalation_details" }]
     },
     "pse_escalation_details": {
