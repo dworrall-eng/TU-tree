@@ -4,12 +4,54 @@
     <meta charset="UTF-8">
     <title>Incident Management Portal</title>
     <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 40px 20px; }
+        :root { --primary: #2563eb; --bg: #0f172a; --card: #ffffff; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                        url('http://googleusercontent.com/image_collection/image_retrieval/12832900831218268435_0'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #1e293b; 
+            display: flex; 
+            justify-content: center; 
+            padding: 40px 20px; 
+            min-height: 100vh;
+        }
+        
         #tree-container { width: 100%; max-width: 650px; }
-        .step { background: var(--card); padding: 32px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        h3 { margin-top: 0; font-size: 1.25rem; line-height: 1.6; }
-        button { display: block; width: 100%; padding: 14px; margin-bottom: 10px; border: none; border-radius: 8px; background: var(--primary); color: white; font-weight: 600; cursor: pointer; }
+        
+        .step { 
+            background: var(--card); 
+            padding: 32px; 
+            border-radius: 16px; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); 
+            animation: fadeIn 0.4s ease; 
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h3 { margin-top: 0; font-size: 1.3rem; line-height: 1.5; color: #0f172a; }
+        
+        button { 
+            display: block; 
+            width: 100%; 
+            padding: 16px; 
+            margin-bottom: 12px; 
+            border: none; 
+            border-radius: 10px; 
+            background: var(--primary); 
+            color: white; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            text-align: left;
+        }
+        
+        button:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        .template { background: #f1f5f9; padding: 16px; border-radius: 8px; margin: 20px 0; font-size: 0.9rem; border-left: 4px solid var(--primary); }
     </style>
 </head>
 <body>
@@ -26,12 +68,11 @@
             
             step.options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.innerText = opt.label;
+                btn.innerHTML = opt.label;
                 btn.onclick = () => renderStep(opt.next);
                 btnContainer.appendChild(btn);
             });
         }
-        // Small delay to ensure data.js is fully parsed
         window.onload = () => renderStep('step1');
     </script>
 </body>
