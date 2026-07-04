@@ -4,83 +4,59 @@
     <meta charset="UTF-8">
     <title>Incident Management Portal</title>
     <style>
-        :root { 
-            --primary: #2563eb; 
-            --bg: #0f172a; 
-            --card: #ffffff; 
-            --blue: #408DA1; 
-            --tool: #e11d48; 
-        }
-
+        :root { --primary: #2563eb; --bg: #0f172a; --card: #ffffff; --blue: #408DA1; --tool: #e11d48; }
         body { 
             font-family: 'Inter', -apple-system, sans-serif; 
-            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('http://googleusercontent.com/image_collection/image_retrieval/12832900831218268435_0'); 
-            background-size: cover; 
-            background-attachment: fixed; 
-            color: #1e293b; 
-            display: flex; 
-            justify-content: center; 
-            padding: 40px 20px; 
-            min-height: 100vh; 
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Abstract_technology_background.jpg/1280px-Abstract_technology_background.jpg'); 
+            background-size: cover; background-attachment: fixed; color: #1e293b; 
+            display: flex; justify-content: center; padding: 40px 20px; min-height: 100vh; 
         }
-
         #tree-container { width: 100%; max-width: 650px; }
-        
-        .step { 
-            background: var(--card); 
-            padding: 32px; 
-            border-radius: 16px; 
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); 
-        }
-
+        .step { background: var(--card); padding: 32px; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); }
         h3 { margin-top: 0; font-size: 1.3rem; line-height: 1.6; }
-
         .text-blue { color: var(--blue); font-weight: 600; }
         .text-tool { color: var(--tool); font-weight: 700; }
-        .text-white { color: #000; }
-
         a { color: var(--tool); font-weight: bold; text-decoration: underline; }
-        a:hover { opacity: 0.8; }
-
-        button { 
-            display: block; 
-            width: 100%; 
-            padding: 16px; 
-            margin-bottom: 12px; 
-            border: none; 
-            border-radius: 10px; 
-            background: var(--primary); 
-            color: white; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            text-align: left; 
-        }
-        
+        button { display: block; width: 100%; padding: 16px; margin-bottom: 12px; border: none; border-radius: 10px; background: var(--primary); color: white; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; }
         button:hover { background: #1d4ed8; transform: translateY(-2px); }
     </style>
 </head>
 <body>
     <div id="tree-container"></div>
-    <script src="data.js"></script>
     <script>
-        function parseText(text) {
-            return text.replace(/\[([^\]]+)\]\[([^\]]+)\]/g, '<span class="text-$2">$1</span>');
-        }
+        const steps = {
+            "step1": { text: "[Is this incident a PSE, Collision or both?][blue]", options: [{ label: "PSE", next: "pse_investigate" }, { label: "Collision", next: "step3" }, { label: "Both", next: "step4" }] },
+            "pse_investigate": { text: "[Use the][blue] [WebRAD Panorama Camera Replay][tool] [and recordings in][blue] [Webviz][tool] [to investigate the event.][blue]<br><br>[Is the event a true or false positive?][white]", options: [{ label: "True Positive", next: "pse_severity" }, { label: "False Positive", next: "pse_false_positive" }] },
+            "pse_false_positive": { text: "Event confirmed as False Positive. No further action required.", options: [{ label: "Return to Start", next: "step1" }] },
+            "pse_severity": { text: "Determine the severity of the event. Is this an urgent PSE?", options: [{ label: "Yes", next: "pse_urgent_steps" }, { label: "No", next: "pse_safety_deescalation" }] },
+            "pse_urgent_steps": { text: "<strong>URGENT PSE ESCALATION</strong><br><br>1) Find EM on shift<br>1a) <a href='http://go/emschedule' target='_blank'>Click this link go/emschedule</a><br>2) Send a ping in the 'Escalation to EM' space to contact the Escalation manager, and add LDN AVOS contacts.", options: [{ label: "Continue", next: "pse_safety_deescalation" }] },
+            "pse_safety_deescalation": { text: "<strong>SAFETY & DE-ESCALATION</strong><br><br>[1) Talk to rider to ensure safety/comfort.][blue]<br>[2) Try to de-escalate using][blue] [audio alerts][tool][.][blue]<br>[3) Escape the scene if necessary using][blue] [unsticking tools][tool]", options: [{ label: "Next", next: "pse_es_required" }] },
+            "pse_es_required": { text: "Are Emergency Services (ES) required?", options: [{ label: "Yes", next: "pse_es_process" }, { label: "No", next: "pse_evaluate" }] },
+            "pse_es_process": { text: "[EMERGENCY SERVICES CALL PROTOCOL:][blue]<br><br>[Call emergency services,][blue]<br><br>[1) Quote][blue] [incident type (fire, police or ambulance).][tool]<br>[2) Introduce yourself from Waymo and explain you remotely guide autonomous vehicles.][blue]<br>[3) Explain the situation clearly and succinctly.][blue]<br>[4) Request services.][blue]<br>[5) Get an][blue] [incident number][tool][,][blue] [ETA][tool] [and offer our callback number (tbc).][blue]", options: [{ label: "Continue", next: "pse_evaluate" }] },
+            "pse_evaluate": { text: "Once the threat is no longer active, please respond to the EVALUATE PSE request:", options: [{ label: "1) Yes there is blocking damage, dispatch recovery immediately", next: "pse_rescue_flow_1" }, { label: "2) Yes there is blocking damage, complete trip and RTB", next: "pse_rescue_flow_2" }, { label: "3) Yes, but no blocking damage", next: "pse_escalation_details" }, { label: "4) No, there is no damage", next: "pse_escalation_details" }, { label: "5) No, there is no damage but there was a PSE", next: "pse_check_mission_control" }] },
+            "pse_rescue_flow_1": { text: "RESCUE FLOW (Dispatch Recovery): Complete rescue form, arrange rehail, create Ops chat, monitor until pickup.<br><br><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?", options: [{ label: "Next: Escalation Details", next: "pse_escalation_details" }] },
+            "pse_rescue_flow_2": { text: "RESCUE FLOW (Complete Trip & RTB): Complete rescue form, arrange rehail, monitor until pickup.<br><br><strong>Ops chat template:</strong><br>- Potential damage / severity<br>- Cyber event detected?<br>- ES contacted?<br>- Injuries reported?<br>- Other party on scene?<br>- Event context / description<br>- Other relevant info<br>- Law enforcement present?", options: [{ label: "Next: Escalation Details", next: "pse_escalation_details" }] },
+            "pse_escalation_details": { text: "PSE ESCALATION STEPS:<br><br>1) Update PSE Event page.<br>2) Complete PSE escalation form.<br>3) If potential incident, complete ERI form.<br>4) Review 'Escalate to Ops on-call'.<br>5) If media present, DM Ops on-call.", options: [{ label: "Next: Resolution Stage", next: "pse_resolution" }] },
+            "pse_resolution": { text: "RESOLUTION STAGE: Are there riders present?", options: [{ label: "Yes", next: "pse_rider_transfer" }, { label: "No", next: "pse_eri_update" }] },
+            "pse_rider_transfer": { text: "Use 'Cases' to transfer the case to Waymo Support.", options: [{ label: "Continue", next: "pse_eri_update" }] },
+            "pse_eri_update": { text: "1) Update the ERI form with any additional details and close the event.<br><br>Was this event an incident?", options: [{ label: "Yes", next: "pse_complete" }, { label: "No", next: "pse_complete" }] },
+            "pse_complete": { text: "PSE Workflow Complete.", options: [{ label: "Return to Start", next: "step1" }] },
+            "pse_check_mission_control": { text: "PSE Post-Event: Check if a Mission Control event has been set up. If yes, change it to False Positive and complete the workflow.", options: [{ label: "Finish", next: "step1" }] },
+            "step3": { text: "Collision path logic placeholder.", options: [{ label: "Back", next: "step1" }] },
+            "step4": { text: "Both path logic placeholder.", options: [{ label: "Back", next: "step1" }] }
+        };
 
+        function parseText(text) { return text.replace(/\[([^\]]+)\]\[([^\]]+)\]/g, '<span class="text-$2">$1</span>'); }
         function renderStep(id) {
             const container = document.getElementById('tree-container');
             const step = steps[id];
             if (!step) return;
-            
             container.innerHTML = `<div class="step"><h3>${parseText(step.text)}</h3><div id="btn-container"></div></div>`;
-            const btnContainer = document.getElementById('btn-container');
-            
             step.options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.innerHTML = opt.label;
                 btn.onclick = () => renderStep(opt.next);
-                btnContainer.appendChild(btn);
+                document.getElementById('btn-container').appendChild(btn);
             });
         }
         window.onload = () => renderStep('step1');
