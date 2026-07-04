@@ -41,9 +41,9 @@
         ]
     },
     "pse_es_process": {
-        text: "Call emergency services, quote incident type, introduce yourself, and get incident number.",
-        options: [{ label: "Continue", next: "pse_evaluate" }]
-    },
+    text: "[EMERGENCY SERVICES CALL PROTOCOL:][blue]<br><br>[Call emergency services,][blue]<br><br>[1) Quote][blue] [incident type (fire, police or ambulance).][tool]<br>[2) Introduce yourself from Waymo and explain you remotely guide autonomous vehicles.][blue]<br>[3) Explain the situation clearly and succinctly.][blue]<br>[4) Request services.][blue]<br>[5) Get an][blue] [incident number][tool][,][blue] [ETA][tool] [and offer our callback number (tbc).][blue]",
+    options: [{ label: "Continue", next: "pse_evaluate" }]
+},
     "pse_evaluate": {
         text: "Once the threat is no longer active, respond to the EVALUATE PSE request:",
         options: [
